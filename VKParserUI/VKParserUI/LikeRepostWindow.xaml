@@ -1,0 +1,68 @@
+﻿<Window x:Class="VKParserUI.LikeRepostWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VKParserUI"
+        mc:Ignorable="d"
+        Title="LikeRepostWindow" Height="400" Width="800">
+    <Grid>
+        <Button x:Name="button_Authorization" Content="Авторизация" HorizontalAlignment="Left" VerticalAlignment="Top" Width="127" Click="button_Authorization_Click"/>
+        <Button x:Name="button_Communities_Search" Content="Поиск Сообществ" HorizontalAlignment="Left" Margin="132,0,0,0" VerticalAlignment="Top" Width="187" Click="button_Communities_Search_Click"/>
+        <Button x:Name="button_Like_Repost" Content="Like/Repost" HorizontalAlignment="Left" Margin="324,0,0,0" VerticalAlignment="Top" Width="134" Click="button_Like_Repost_Click"/>
+        <TextBox x:Name="textBox_URL" HorizontalAlignment="Left" Height="23" Margin="170,73,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="190"/>
+        <Label x:Name="label_URL" Content="Ссылка на пост :" HorizontalAlignment="Left" Margin="46,69,0,0" VerticalAlignment="Top"/>
+
+        <!--<DataGrid Name="DataGrid1" Margin="463,0,0,0">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="ChangeText">Show/Hide</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>-->
+
+        <ListView Margin="463,0,0,0">
+            <ListView.View>
+                <GridView AllowsColumnReorder="true">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Like}" Width="100">
+                        <GridViewColumnHeader>Лайки
+                            <!--<GridViewColumnHeader.ContextMenu>
+                            <ContextMenu  MenuItem.Click="FirstNameCM_Click" Name="FirstNameCM">
+                                <MenuItem Header="Ascending" />
+                                <MenuItem Header="Descending" />
+                            </ContextMenu>
+                        </GridViewColumnHeader.ContextMenu>-->
+                        </GridViewColumnHeader>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                       Content="Click Me"
+                       Margin="20"
+                       VerticalAlignment="Center"
+                       Click="Button_Click" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Repost}" Width="100">
+                        <GridViewColumnHeader>Репосты
+                            <!--<GridViewColumnHeader.ContextMenu>
+                                <ContextMenu  MenuItem.Click="LastNameCM_Click" Name="LastNameCM">
+                                    <MenuItem Header="Ascending" />
+                                    <MenuItem Header="Descending" />
+                                </ContextMenu>
+                            </GridViewColumnHeader.ContextMenu>-->
+                        </GridViewColumnHeader>
+                    </GridViewColumn>
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="button_Like" Content="Лайк" HorizontalAlignment="Left" Margin="67,141,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="button_Repost" Content="Репост" HorizontalAlignment="Left" Margin="233,141,0,0" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+</Window>

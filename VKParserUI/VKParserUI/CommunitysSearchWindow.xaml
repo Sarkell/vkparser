@@ -1,0 +1,90 @@
+﻿<Window x:Class="VKParserUI.CommunitysSearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VKParserUI"
+        mc:Ignorable="d"
+        Title="CommunitysSearchWindow" Height="400" Width="800">
+    <Grid>
+        <Button x:Name="button_Authorization" Content="Авторизация" HorizontalAlignment="Left" VerticalAlignment="Top" Width="127" Click="button_Authorization_Click"/>
+        <Button x:Name="button_Communities_Search" Content="Поиск Сообществ" HorizontalAlignment="Left" Margin="132,0,0,0" VerticalAlignment="Top" Width="187" Click="button_Communities_Search_Click"/>
+        <Button x:Name="button_Like_Repost" Content="Like/Repost" HorizontalAlignment="Left" Margin="324,0,0,0" VerticalAlignment="Top" Width="134" Click="button_Like_Repost_Click"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="159,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="159,53,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="label_Key_Words" Content="Ключевые слова" HorizontalAlignment="Left" Margin="33,25,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_Stop_Words" Content="Стоп слова" HorizontalAlignment="Left" Margin="33,56,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_Country" Content="Страна :" HorizontalAlignment="Left" Margin="33,93,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBox_Country" HorizontalAlignment="Left" Margin="97,97,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="label_City" Content="Город :" HorizontalAlignment="Left" Margin="244,93,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBox_City" HorizontalAlignment="Left" Margin="308,97,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="label_Members_Count" Content="Количество участников : от" HorizontalAlignment="Left" Margin="33,130,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBox_Members_Count" HorizontalAlignment="Left" Margin="207,134,0,0" VerticalAlignment="Top" Width="78"/>
+        <Label x:Name="label_To" Content="до" HorizontalAlignment="Left" Margin="304,134,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBox_To" HorizontalAlignment="Left" Margin="359,134,0,0" VerticalAlignment="Top" Width="69"/>
+        <RadioButton x:Name="radioButton_Communities" Content="Группы" HorizontalAlignment="Left" Margin="33,174,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="radioButton_Events" Content="Встречи" HorizontalAlignment="Left" Margin="166,174,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="radioButton_Publics" Content="Паблики" HorizontalAlignment="Left" Margin="324,177,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="listBox_Log" HorizontalAlignment="Left" Height="150" Margin="0,219,0,0" VerticalAlignment="Top" Width="458"/>
+
+        <!--<DataGrid Name="DataGrid1" Margin="463,0,0,0">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="ChangeText">Show/Hide</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>-->
+
+        <ListView Margin="463,0,0,0">
+            <ListView.View>
+                <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Employee Information">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=FirstName}" Width="100">
+                        <GridViewColumnHeader>Группы
+                            <!--<GridViewColumnHeader.ContextMenu>
+                            <ContextMenu  MenuItem.Click="FirstNameCM_Click" Name="FirstNameCM">
+                                <MenuItem Header="Ascending" />
+                                <MenuItem Header="Descending" />
+                            </ContextMenu>
+                        </GridViewColumnHeader.ContextMenu>-->
+                        </GridViewColumnHeader>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                       Content="Click Me"
+                       Margin="20"
+                       VerticalAlignment="Center"
+                       Click="Button_Click" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=LastName}" Width="100">
+                        <GridViewColumnHeader>Паблики
+                            <!--<GridViewColumnHeader.ContextMenu>
+                                <ContextMenu  MenuItem.Click="LastNameCM_Click" Name="LastNameCM">
+                                    <MenuItem Header="Ascending" />
+                                    <MenuItem Header="Descending" />
+                                </ContextMenu>
+                            </GridViewColumnHeader.ContextMenu>-->
+                        </GridViewColumnHeader>
+                    </GridViewColumn>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=EmployeeNumber}" Width="100">
+                        <GridViewColumnHeader>Встречи
+                            <!--<GridViewColumnHeader.ContextMenu>
+                                <ContextMenu  MenuItem.Click="EmployeeNumberCM_Click" Name="EmployeeNumberCM">
+                                    <MenuItem Header="Ascending" />
+                                    <MenuItem Header="Descending" />
+                                </ContextMenu>
+                            </GridViewColumnHeader.ContextMenu>-->
+                        </GridViewColumnHeader>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>
