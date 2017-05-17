@@ -15,14 +15,28 @@ namespace VKParserUI
 
         private const int APP_ID = 6033617;
         private const string SERVICE_KEY_FOR_ACCESS = "43ac549643ac549643ac54961343f04447443ac43ac54961ab6460b3898cdfd5cbb0a3a";
-
         private const string VK_URL = "https://api.vk.com/method/";
 
-        public ModelLikeRepost getLikesOrRepost(string _link, bool isLikes, int offset) {
+        private String ACCESS_TOKEN = null;
+        private String USER_ID = null;
+
+        public VkApi() { }
+
+        public VkApi(String accessToken, String userId)
+        {
+            this.ACCESS_TOKEN = accessToken;
+            this.USER_ID = userId;
+        }
+
+        public ModelLikeRepost getLikesOrRepost(string _link, bool isLikes, int offset)
+        {
             string _filter;
-            if(isLikes) {
+            if (isLikes)
+            {
                 _filter = "likes";
-            } else {
+            }
+            else
+            {
                 _filter = "copies";
             }
 
@@ -32,7 +46,8 @@ namespace VKParserUI
             string _item_id = "";
             string pattern = @"\d+";
             int count_match = 0;
-            foreach (Match m in Regex.Matches(_link, pattern)) {
+            foreach (Match m in Regex.Matches(_link, pattern))
+            {
                 switch (count_match)
                 {
                     case 0:
@@ -60,13 +75,22 @@ namespace VKParserUI
             return resultInModel;
         }
 
-        public bool isNotAllLikeRepostResult(ModelLikeRepost modelLikeRepost) {
-            if(modelLikeRepost.response.count > modelLikeRepost.response.arrayItem.Count) {
-                return true;
-            } else {
-                return false;
-            }
-            
+        public bool isNotAllLikeRepostResult(ModelLikeRepost modelLikeRepost)
+        {
+            return modelLikeRepost.response.count > modelLikeRepost.response.arrayItem.Count;
+        }
+
+        public ModelUser getUserInfo()
+        {
+            HttpRequest GetInformation = new HttpRequest();
+            GetInformation.AddUrlParam("user_ids", USER_ID);
+            GetInformation.AddUrlParam("access_token", ACCESS_TOKEN);
+            GetInformation.AddUrlParam("fields", "city,country");
+
+            string Result = GetInformation.Get(VK_URL + "users.get").ToString();
+            ModelUser resultInModel = JsonConvert.DeserializeObject<ModelUser>(Result);
+
+            return resultInModel;
         }
 
     }

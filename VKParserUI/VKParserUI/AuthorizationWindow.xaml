@@ -5,16 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VKParserUI"
         mc:Ignorable="d"
-        Title="Вход" Height="400" Width="800">
-    <Grid>
-        <Button x:Name="button_Authorization" Content="Авторизация" HorizontalAlignment="Left" VerticalAlignment="Top" Width="127" Click="button_Authorization_Click"/>
-        <Button x:Name="button_Communities_Search" Content="Поиск Сообществ" HorizontalAlignment="Left" Margin="132,0,0,0" VerticalAlignment="Top" Width="187" Click="button_Communities_Search_Click"/>
-        <Button x:Name="button_Like_Repost" Content="Like/Repost" HorizontalAlignment="Left" Margin="324,0,0,0" VerticalAlignment="Top" Width="134" Click="button_Like_Repost_Click"/>
-        <Label x:Name="label_Input" Content="Введите логин и пароль" HorizontalAlignment="Left" Margin="102,124,0,0" VerticalAlignment="Top" Width="150"/>
-        <TextBox x:Name="textBox_Login" HorizontalAlignment="Left" Height="19" Margin="112,155,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="128"/>
-        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Margin="112,185,0,0" VerticalAlignment="Top" Width="128"/>
-        <Label x:Name="label_Login" Content="Логин:" HorizontalAlignment="Left" Margin="39,151,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label_Password" Content="Пароль:" HorizontalAlignment="Left" Margin="39,177,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="button_Enter" Content="Вход" HorizontalAlignment="Left" Margin="132,221,0,0" VerticalAlignment="Top" Width="75" Click="button_Enter_Click"/>
+        Title="Vk Likes/Reposts &amp; Groups" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" d:DesignWidth="827.834" Width="Auto" Icon="vk.ico">
+    <Grid Loaded="Form_Load">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="161*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="143"/>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="53"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button x:Name="button_Authorization" Content="Авторизация" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Click="button_Authorization_Click" Height="20" Margin="4,0,0,0"/>
+        <Button x:Name="button_Communities_Search" Content="Поиск Сообществ" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Top" Width="135" Click="button_Communities_Search_Click" Grid.ColumnSpan="2" Grid.Column="1" Height="20"/>
+        <Button x:Name="button_Like_Repost" Content="Like/Repost" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Top" Width="135" Click="button_Like_Repost_Click" Grid.Column="3" Height="20"/>
+        <WebBrowser x:Name="web_browser" Margin="8,2,10,10" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" LoadCompleted="web_browser_LoadCompleted" Navigating="web_browser_Navigating" />
+        <TextBlock Margin="10,2,10,0" TextWrapping="Wrap" Text="Авторизация необходима для работы поиска по группам и в некоторых случаях для получения информации о лайках и репостах." VerticalAlignment="Top" FontSize="13.333" Grid.ColumnSpan="2" Grid.Row="1" Height="71"/>
+        <TextBlock x:Name="text_authorisation" Margin="10,98,10,0" Grid.Row="1" TextWrapping="Wrap" Text="Вы не авторизованы" Height="30" VerticalAlignment="Top" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="14.667" TextAlignment="Center"/>
+        <Label Content="Id: " HorizontalAlignment="Left" Margin="10,133,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Content="Имя: " HorizontalAlignment="Left" Margin="10,154,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Content="Фамилия: " HorizontalAlignment="Left" Margin="10,175,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <TextBlock x:Name="text_id" HorizontalAlignment="Left" Margin="36,138,0,0" Grid.Row="1" TextWrapping="Wrap" Text="NONE" VerticalAlignment="Top"/>
+        <TextBlock x:Name="text_name" HorizontalAlignment="Left" Margin="49,159,0,0" Grid.Row="1" TextWrapping="Wrap" Text="NONE" VerticalAlignment="Top"/>
+        <TextBlock x:Name="text_surname" HorizontalAlignment="Left" Margin="75,180,0,0" Grid.Row="1" TextWrapping="Wrap" Text="NONE" VerticalAlignment="Top"/>
+        <Button x:Name="button_exit" Content="Выход" Margin="5,0,10,10" Grid.Row="1" Grid.Column="1" Height="20" VerticalAlignment="Bottom" Click="button_exit_Click"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="5,0,0,38" Grid.Row="1" VerticalAlignment="Bottom" Width="74" Height="42" RenderTransformOrigin="0.5,0.5" Click="button_Click" Grid.Column="1"/>
+
     </Grid>
 </Window>
