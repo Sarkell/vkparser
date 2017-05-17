@@ -13,6 +13,9 @@ namespace VKParserUI
         [JsonProperty(PropertyName = "response")]
         public List<User> users { get; set; }
 
+        [JsonProperty(PropertyName = "error")]
+        public Error error { get; set; }
+
         public class User
         {
 
@@ -25,6 +28,15 @@ namespace VKParserUI
             [JsonProperty(PropertyName = "last_name")]
             public string surname { get; set; }
 
+        }
+
+        public class Error
+        {
+            [JsonProperty(PropertyName = "error_code")]
+            public int errorCode { get; set; }
+
+            [JsonProperty(PropertyName = "error_msg")]
+            public string errorMsg { get; set; }
         }
 
     }
