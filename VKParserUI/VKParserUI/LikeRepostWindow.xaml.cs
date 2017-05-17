@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Windows.Navigation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +26,10 @@ namespace VKParserUI
         private VkApi VkApi = new VkApi();
         private String link;
         private bool isLikes = false;
+
+
+        private readonly List<string> requestTypeParams = new List<string> { "пост", "комментарий", "фото", "видео", "заметка", "товар", "комментарий к фото", "комментарий к видео", "комментарий в обсуждении", "комментарий к товару" };
+
 
         void getMoreOrNothing(string link, bool isLikes)
         {
@@ -98,11 +104,26 @@ namespace VKParserUI
                     this.Width = bounds.Width;
                     this.Height = bounds.Height;
                 }
+
             }
             catch
             {
                 MessageBox.Show("Нет сохраненных параметров");
             }
+
+            // just for mocking data
+            ModelUser user = new ModelUser();
+            user.users.Add(new ModelUser.User(271636103, "NAMA", "SUR"));
+            members_listview.ItemsSource = user.users;
+
+            comboBox.ItemsSource = requestTypeParams;
+            
+        }
+
+        private void Hyper_OnClick(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("http://vk.com/id" + ((ModelUser.User)((Hyperlink)e.OriginalSource).DataContext).uId));
+            e.Handled = true;
         }
 
         private void button_Authorization_Click(object sender, RoutedEventArgs e)
@@ -174,5 +195,7 @@ namespace VKParserUI
         {
             link = textBox_URL.Text;
         }
+
+
     }
 }
