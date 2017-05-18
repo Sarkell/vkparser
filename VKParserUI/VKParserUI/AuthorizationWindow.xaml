@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VKParserUI"
         mc:Ignorable="d"
-        Title="Vk Likes/Reposts &amp; Groups" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" d:DesignWidth="827.834" Width="Auto" Icon="vk.ico">
+        Title="Vk Likes/Reposts &amp; Groups" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Width="Auto" Icon="vk.ico">
     <Grid Loaded="Form_Load">
         <Grid.RowDefinitions>
             <RowDefinition Height="24"/>

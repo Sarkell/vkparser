@@ -55,7 +55,7 @@ namespace VKParserUI
 
         private void button_Like_Repost_Click(object sender, RoutedEventArgs e)
         {
-            LikeRepostWindow a = new LikeRepostWindow();
+            LikeRepostWindow a = new LikeRepostWindow(ACCESS_TOKEN);
             a.Show();
             this.Close();
         }
@@ -92,7 +92,7 @@ namespace VKParserUI
                 VkApi VkApi = new VkApi(ACCESS_TOKEN, CLIENT_ID);
                 ModelUser user = VkApi.getUserInfo();
 
-                if(user.error != null)
+                if (user.error != null)
                 {
                     string errorText = String.Format("Error №{0}: {1}.", user.error.errorCode, user.error.errorMsg);
                     text_error.Visibility = Visibility.Visible;

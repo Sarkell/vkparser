@@ -11,6 +11,12 @@ namespace VKParserUI
     class ModelLikeRepost
     {
 
+        public ModelLikeRepost(Response newResponse, Error newError)
+        {
+            this.response = newResponse;
+            this.error = newError;
+        }
+
         [JsonProperty(PropertyName = "response")]
         public Response response { get; set; }
 
@@ -51,6 +57,12 @@ namespace VKParserUI
 
         public class Error
         {
+            public Error(int newErrorCode, string newErrorMsg)
+            {
+                this.errorCode = newErrorCode;
+                this.errorMsg = newErrorMsg;
+            }
+
             [JsonProperty(PropertyName = "error_code")]
             public int errorCode { get; set; }
 

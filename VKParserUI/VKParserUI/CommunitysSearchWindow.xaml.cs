@@ -23,23 +23,6 @@ namespace VKParserUI
         public CommunitysSearchWindow()
         {
             InitializeComponent();
-            try
-            {
-                Rect bounds = Properties.Settings.Default.WindowPosition;
-                this.Top = bounds.Top;
-                this.Left = bounds.Left;
-                // Восстановить размеры, только если они
-                // устанавливались для окна вручную
-                if (this.SizeToContent == SizeToContent.Manual)
-                {
-                    this.Width = bounds.Width;
-                    this.Height = bounds.Height;
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Нет сохраненных параметров");
-            }
         }
 
         private void button_Authorization_Click(object sender, RoutedEventArgs e)

@@ -20,6 +20,8 @@ namespace VKParserUI
         private String ACCESS_TOKEN = null;
         private String USER_ID = null;
 
+        private readonly List<string> requestTypeParams = new List<string> { "post", "comment", "photo", "video", "note", "market", "photo_comment", "video_comment", "topic_comment", "market_comment" };
+
         public VkApi() { }
 
         public VkApi(String accessToken, String userId)
@@ -28,40 +30,27 @@ namespace VKParserUI
             this.USER_ID = userId;
         }
 
-        public ModelLikeRepost getLikesOrRepost(string _link, bool isLikes, int offset)
+        public VkApi(String accessToken)
         {
-            string _filter;
-            if (isLikes)
+            this.ACCESS_TOKEN = accessToken;
+        }
+
+        public ModelLikeRepost getLikesOrRepost(string _link, bool isLikes, int offset, int selectedType)
+        {
+            if (_link == null)
             {
-                _filter = "likes";
-            }
-            else
-            {
-                _filter = "copies";
+                return new ModelLikeRepost(null, new ModelLikeRepost.Error(-1, "Не задана ссылка на ресурс."));
             }
 
-            string _type = "post";
+            string _filter = isLikes ? "likes" : "copies";
+            string _type = requestTypeParams[selectedType];
 
-            string _owner_id = "";
-            string _item_id = "";
-            string pattern = @"\d+";
-            int count_match = 0;
-            foreach (Match m in Regex.Matches(_link, pattern))
-            {
-                switch (count_match)
-                {
-                    case 0:
-                        _owner_id = m.Value;
-                        count_match++;
-                        break;
-                    case 1:
-                        _item_id = m.Value;
-                        break;
-                }
-            }
+            string[] ownerItemId = selectOwnerItemId(_link, selectedType);
+            string _owner_id = ownerItemId[0];
+            string _item_id = ownerItemId[1];
 
             HttpRequest GetInformation = new HttpRequest();
-            GetInformation.AddUrlParam("access_token", SERVICE_KEY_FOR_ACCESS);
+            GetInformation.AddUrlParam("access_token", ACCESS_TOKEN == null ? SERVICE_KEY_FOR_ACCESS : ACCESS_TOKEN);
             GetInformation.AddUrlParam("owner_id", _owner_id);
             GetInformation.AddUrlParam("item_id", _item_id);
             GetInformation.AddUrlParam("type", _type);
@@ -75,6 +64,160 @@ namespace VKParserUI
             return resultInModel;
         }
 
+        private string[] selectOwnerItemId(string _link, int selectedType)
+        {
+            string[] ownerItemId = new string[3];
+
+            switch (requestTypeParams[selectedType])
+            {
+                case "post":
+                    string patternPost = @"wall\d+_\d+";
+                    string patternGroupPost = @"wall-\d+_\d+";
+                    foreach (Match m in Regex.Matches(_link, patternPost))
+                        ownerItemId = getOwnerItemId(m.Value);
+                    foreach (Match m in Regex.Matches(_link, patternGroupPost))
+                    {
+                        ownerItemId = getOwnerItemId(m.Value);
+                        ownerItemId[0] = "-" + ownerItemId[0];
+                    }
+                    break;
+                case "comment":
+                    string patternPostComment = @"wall\d+_\d+_r\d+";
+                    string patternGroupPostComment = @"wall-\d+_\d+_r\d+";
+                    foreach (Match m in Regex.Matches(_link, patternPostComment))
+                        ownerItemId = getOwnerItemId(m.Value);
+                    foreach (Match m in Regex.Matches(_link, patternGroupPostComment))
+                    {
+                        ownerItemId = getOwnerItemId(m.Value);
+                        ownerItemId[0] = "-" + ownerItemId[0];
+                    }
+                    ownerItemId[1] = ownerItemId[2];
+                    break;
+                case "photo":
+                    string patternPhoto = @"photo\d+_\d+";
+                    string patternGroupPhoto = @"photo-\d+_\d+";
+                    foreach (Match m in Regex.Matches(_link, patternPhoto))
+                        ownerItemId = getOwnerItemId(m.Value);
+                    foreach (Match m in Regex.Matches(_link, patternGroupPhoto))
+                    {
+                        ownerItemId = getOwnerItemId(m.Value);
+                        ownerItemId[0] = "-" + ownerItemId[0];
+                    }
+                    break;
+                case "photo_comment":
+                    string patternPhotoComment = @"photo\d+_\d+_r\d+";
+                    string patternGroupPhotoComment = @"photo-\d+_\d+_r\d+";
+                    foreach (Match m in Regex.Matches(_link, patternPhotoComment))
+                        ownerItemId = getOwnerItemId(m.Value);
+                    foreach (Match m in Regex.Matches(_link, patternGroupPhotoComment))
+                    {
+                        ownerItemId = getOwnerItemId(m.Value);
+                        ownerItemId[0] = "-" + ownerItemId[0];
+                    }
+                    ownerItemId[1] = ownerItemId[2];
+                    break;
+                case "video":
+                    string patternVideo = @"video\d+_\d+";
+                    string patternGroupViseo = @"video-\d+_\d+";
+                    foreach (Match m in Regex.Matches(_link, patternVideo))
+                        ownerItemId = getOwnerItemId(m.Value);
+                    foreach (Match m in Regex.Matches(_link, patternGroupViseo))
+                    {
+                        ownerItemId = getOwnerItemId(m.Value);
+                        ownerItemId[0] = "-" + ownerItemId[0];
+                    }
+                    break;
+                case "video_comment":
+                    string patternVideoComment = @"video\d+_\d+_r\d+";
+                    string patternGroupVideoComment = @"video-\d+_\d+_r\d+";
+                    foreach (Match m in Regex.Matches(_link, patternVideoComment))
+                        ownerItemId = getOwnerItemId(m.Value);
+                    foreach (Match m in Regex.Matches(_link, patternGroupVideoComment))
+                    {
+                        ownerItemId = getOwnerItemId(m.Value);
+                        ownerItemId[0] = "-" + ownerItemId[0];
+                    }
+                    ownerItemId[1] = ownerItemId[2];
+                    break;
+                case "note":
+                    string patternNote = @"note\d+_\d+";
+                    string patternGroupNote = @"note-\d+_\d+";
+                    foreach (Match m in Regex.Matches(_link, patternNote))
+                        ownerItemId = getOwnerItemId(m.Value);
+                    foreach (Match m in Regex.Matches(_link, patternGroupNote))
+                    {
+                        ownerItemId = getOwnerItemId(m.Value);
+                        ownerItemId[0] = "-" + ownerItemId[0];
+                    }
+                    break;
+                case "market":
+                    string patternProduct = @"product\d+_\d+";
+                    string patternGroupProduct = @"product-\d+_\d+";
+                    foreach (Match m in Regex.Matches(_link, patternProduct))
+                        ownerItemId = getOwnerItemId(m.Value);
+                    foreach (Match m in Regex.Matches(_link, patternGroupProduct))
+                    {
+                        ownerItemId = getOwnerItemId(m.Value);
+                        ownerItemId[0] = "-" + ownerItemId[0];
+                    }
+                    break;
+                case "market_comment":
+                    string patternProductComment = @"product\d+_\d+_r\d+";
+                    string patternGroupProductComment = @"product-\d+_\d+_r\d+";
+                    foreach (Match m in Regex.Matches(_link, patternProductComment))
+                        ownerItemId = getOwnerItemId(m.Value);
+                    foreach (Match m in Regex.Matches(_link, patternGroupProductComment))
+                    {
+                        ownerItemId = getOwnerItemId(m.Value);
+                        ownerItemId[0] = "-" + ownerItemId[0];
+                    }
+                    ownerItemId[1] = ownerItemId[2];
+                    break;
+                case "topic_comment":
+                    string patternTopicComment = @"topic\d+_\d+\?post=\d+";
+                    string patternGroupTopicComment = @"topic-\d+_\d+\?post=\d+";
+                    foreach (Match m in Regex.Matches(_link, patternTopicComment))
+                        ownerItemId = getOwnerItemId(m.Value);
+                    foreach (Match m in Regex.Matches(_link, patternGroupTopicComment))
+                    {
+                        ownerItemId = getOwnerItemId(m.Value);
+                        ownerItemId[0] = "-" + ownerItemId[0];
+                    }
+                    ownerItemId[1] = ownerItemId[2];
+                    break;
+            }
+
+            return ownerItemId;
+        }
+
+        private string[] getOwnerItemId(string from)
+        {
+            string pattern = @"\d+";
+            int count_match = 0;
+            string[] values = new string[3];
+
+            foreach (Match m in Regex.Matches(from, pattern))
+            {
+                switch (count_match)
+                {
+                    case 0:
+                        values[0] = m.Value;
+                        count_match++;
+                        break;
+                    case 1:
+                        values[1] = m.Value;
+                        count_match++;
+                        break;
+                    case 2:
+                        values[2] = m.Value;
+                        count_match++;
+                        break;
+                }
+            }
+
+            return values;
+        }
+
         public bool isNotAllLikeRepostResult(ModelLikeRepost modelLikeRepost)
         {
             return modelLikeRepost.response.count > modelLikeRepost.response.arrayItem.Count;
@@ -85,7 +228,6 @@ namespace VKParserUI
             HttpRequest GetInformation = new HttpRequest();
             GetInformation.AddUrlParam("user_ids", USER_ID);
             GetInformation.AddUrlParam("access_token", ACCESS_TOKEN);
-            GetInformation.AddUrlParam("fields", "city,country");
 
             string Result = GetInformation.Get(VK_URL + "users.get").ToString();
             ModelUser resultInModel = JsonConvert.DeserializeObject<ModelUser>(Result);

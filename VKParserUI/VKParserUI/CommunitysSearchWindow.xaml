@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VKParserUI"
         mc:Ignorable="d"
-        Title="CommunitysSearchWindow" Height="400" Width="800">
+        Title="Vk Likes/Reposts &amp; Groups" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Width="Auto" Icon="vk.ico">
     <Grid>
         <Button x:Name="button_Authorization" Content="Авторизация" HorizontalAlignment="Left" VerticalAlignment="Top" Width="127" Click="button_Authorization_Click"/>
         <Button x:Name="button_Communities_Search" Content="Поиск Сообществ" HorizontalAlignment="Left" Margin="132,0,0,0" VerticalAlignment="Top" Width="187" Click="button_Communities_Search_Click"/>

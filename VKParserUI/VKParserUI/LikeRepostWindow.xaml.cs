@@ -12,7 +12,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace VKParserUI
@@ -22,14 +21,43 @@ namespace VKParserUI
     /// </summary>
     public partial class LikeRepostWindow : Window
     {
+        private string ACCESS_TOKEN;
         private ModelLikeRepost response;
-        private VkApi VkApi = new VkApi();
-        private String link;
+        private VkApi VkApi;
+        private string link;
         private bool isLikes = false;
+        private int selectedType;
 
+        private readonly List<string> requestTypeParams = new List<string> { "Пост", "Комментарий к посту", "Фото", "Видео", "Заметка", "Товар", "Комментарий к фото", "Комментарий к видео", "Комментарий в обсуждении", "Комментарий к товару" };
 
-        private readonly List<string> requestTypeParams = new List<string> { "пост", "комментарий", "фото", "видео", "заметка", "товар", "комментарий к фото", "комментарий к видео", "комментарий в обсуждении", "комментарий к товару" };
+        public LikeRepostWindow()
+        {
+            InitializeComponent();
+        }
 
+        public LikeRepostWindow(string accessToken)
+        {
+            InitializeComponent();
+
+            ACCESS_TOKEN = accessToken;
+            VkApi = new VkApi(ACCESS_TOKEN);
+
+            if (ACCESS_TOKEN == null)
+            {
+                button_Communities_Search.IsEnabled = false;
+            }
+            else
+            {
+                button_Communities_Search.IsEnabled = true;
+            }
+
+            // just for mocking data
+            ModelUser user = new ModelUser();
+            user.users.Add(new ModelUser.User(271636103, "NAMA", "SUR"));
+            members_listview.ItemsSource = user.users;
+
+            comboBox.ItemsSource = requestTypeParams;
+        }
 
         void getMoreOrNothing(string link, bool isLikes)
         {
@@ -40,7 +68,7 @@ namespace VKParserUI
             {
                 if (count < max_count)
                 {
-                    ModelLikeRepost newResult = VkApi.getLikesOrRepost(link, isLikes, response.response.arrayItem.Count);
+                    ModelLikeRepost newResult = VkApi.getLikesOrRepost(link, isLikes, response.response.arrayItem.Count, selectedType);
 
                     if (newResult.response != null)
                     {
@@ -50,7 +78,7 @@ namespace VKParserUI
                     else
                     {
                         string errorText = String.Format("Error №{0}: {1}.", newResult.error.errorCode, newResult.error.errorMsg);
-                        label_error.Content = errorText;
+                        label_error.Text = errorText;
                         return;
                     }
 
@@ -89,37 +117,6 @@ namespace VKParserUI
 
         }
 
-        public LikeRepostWindow()
-        {
-            InitializeComponent();
-            try
-            {
-                Rect bounds = Properties.Settings.Default.WindowPosition;
-                this.Top = bounds.Top;
-                this.Left = bounds.Left;
-                // Восстановить размеры, только если они
-                // устанавливались для окна вручную
-                if (this.SizeToContent == SizeToContent.Manual)
-                {
-                    this.Width = bounds.Width;
-                    this.Height = bounds.Height;
-                }
-
-            }
-            catch
-            {
-                MessageBox.Show("Нет сохраненных параметров");
-            }
-
-            // just for mocking data
-            ModelUser user = new ModelUser();
-            user.users.Add(new ModelUser.User(271636103, "NAMA", "SUR"));
-            members_listview.ItemsSource = user.users;
-
-            comboBox.ItemsSource = requestTypeParams;
-            
-        }
-
         private void Hyper_OnClick(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("http://vk.com/id" + ((ModelUser.User)((Hyperlink)e.OriginalSource).DataContext).uId));
@@ -141,28 +138,19 @@ namespace VKParserUI
             this.Close();
         }
 
-        private void button_Like_Repost_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void button_Like_Click(object sender, RoutedEventArgs e)
         {
             isLikes = true;
-            response = VkApi.getLikesOrRepost(link, isLikes, 0);
+            selectedType = comboBox.SelectedIndex;
+            response = VkApi.getLikesOrRepost(link, isLikes, 0, comboBox.SelectedIndex);
             if (response.response == null)
             {
                 string errorText = String.Format("Error №{0}: {1}.", response.error.errorCode, response.error.errorMsg);
-                label_error.Content = errorText;
+                label_error.Text = errorText;
             }
             else
             {
-                label_error.Content = "";
+                label_error.Text = "";
                 showLikesOrReposts(isLikes, response.response.arrayItem);
                 getMoreOrNothing(link, isLikes);
             }
@@ -172,12 +160,13 @@ namespace VKParserUI
         private void button_Repost_Click(object sender, RoutedEventArgs e)
         {
             isLikes = false;
-            response = VkApi.getLikesOrRepost(link, isLikes, 0);
+            selectedType = comboBox.SelectedIndex;
+            response = VkApi.getLikesOrRepost(link, isLikes, 0, comboBox.SelectedIndex);
             if (response.response == null)
             {
-                label_error.Content = "";
+                label_error.Text = "";
                 string errorText = String.Format("Error №{0}: {1}.", response.error.errorCode, response.error.errorMsg);
-                label_error.Content = errorText;
+                label_error.Text = errorText;
             }
             else
             {
@@ -196,6 +185,10 @@ namespace VKParserUI
             link = textBox_URL.Text;
         }
 
+        private void saveInFile_button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
 
     }
 }

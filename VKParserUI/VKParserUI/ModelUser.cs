@@ -27,7 +27,7 @@ namespace VKParserUI
             // just for mocking data
             public User(int uid, string name, string surname)
             {
-                uId = uId;
+                this.uId = uid;
                 this.name = name;
                 this.surname = surname;
             }

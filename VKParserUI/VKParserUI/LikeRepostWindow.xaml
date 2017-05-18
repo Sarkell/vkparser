@@ -5,25 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VKParserUI"
         mc:Ignorable="d"
-        Title="LikeRepostWindow" Height="400" Width="800">
+        Title="Vk Likes/Reposts &amp; Groups" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Width="Auto" Icon="vk.ico">
     <Grid>
-        <Button x:Name="button_Authorization" Content="Авторизация" HorizontalAlignment="Left" VerticalAlignment="Top" Width="127" Click="button_Authorization_Click"/>
-        <Button x:Name="button_Communities_Search" Content="Поиск Сообществ" HorizontalAlignment="Left" Margin="132,0,0,0" VerticalAlignment="Top" Width="187" Click="button_Communities_Search_Click"/>
-        <Button x:Name="button_Like_Repost" Content="Like/Repost" HorizontalAlignment="Left" Margin="324,0,0,0" VerticalAlignment="Top" Width="134" Click="button_Like_Repost_Click"/>
-        <TextBox x:Name="textBox_URL" HorizontalAlignment="Left" Height="23" Margin="129,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190" TextChanged="textBox_URL_TextChanged" />
-        <Label x:Name="label_URL" Content="Ссылка на пост :" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top"/>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="161*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="143"/>
+            <ColumnDefinition Width="143"/>
+            <ColumnDefinition Width="143"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button x:Name="button_Authorization" Content="Авторизация" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Click="button_Authorization_Click" Height="20" Margin="4,0,0,0"/>
+        <Button x:Name="button_Communities_Search" Content="Поиск Сообществ" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Top" Width="135" Click="button_Communities_Search_Click" Grid.Column="1" Height="20" IsEnabled="False"/>
+        <Button x:Name="button_Like_Repost" Content="Like/Repost" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Top" Width="135" Grid.Column="2" Height="20"/>
+        <TextBox x:Name="textBox_URL" Height="23" Margin="67,30,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="textBox_URL_TextChanged" Grid.ColumnSpan="3" Grid.Row="1" />
+        <Label x:Name="label_URL" Content="Ссылка:" Margin="10,27,0,0" VerticalAlignment="Top" Grid.Row="1" HorizontalAlignment="Left"/>
 
 
-        <Button x:Name="button_Like" Content="Лайк" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" Width="199" Click="button_Like_Click"/>
-        <Button x:Name="button_Repost" Content="Репост" HorizontalAlignment="Left" Margin="256,141,0,0" VerticalAlignment="Top" Width="195" Click="button_Repost_Click"/>
-        <Button x:Name="button_Load_More" Content="Звгрузить ещё..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="97" Margin="685,339,0,0" Visibility="Collapsed" Click="button_Load_More_Click"/>
-        <Label x:Name="label_error" Content=" " HorizontalAlignment="Left" Margin="46,96,0,0" VerticalAlignment="Top" Foreground="Red"/>
+        <Button x:Name="button_Like" Content="Лайк" Margin="10,73,10,0" VerticalAlignment="Top" Click="button_Like_Click" Height="23" Grid.Row="1" Grid.Column="1"/>
+        <Button x:Name="button_Repost" Content="Репост" Margin="10,73,10,0" VerticalAlignment="Top" Click="button_Repost_Click" Grid.Column="2" Height="23" Grid.Row="1"/>
+        <Button x:Name="button_Load_More" Content="Звгрузить ещё..." Margin="10,0,10,45" Visibility="Collapsed" Click="button_Load_More_Click" Grid.Column="2" Grid.Row="1" Height="30" VerticalAlignment="Bottom"/>
+        <TextBlock x:Name="label_error" Margin="10,117,10,0" VerticalAlignment="Top" Foreground="Red" Height="73" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="WrapWithOverflow"/>
 
-        <ListView Name="members_listview"  HorizontalAlignment="Left" Height="359" Margin="477,0,0,0" VerticalAlignment="Top" Width="305" >
+        <ListView Name="members_listview" Margin="10" Grid.Column="3" Grid.Row="1" >
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn  Width="295">
+                        <GridViewColumn  Width="300">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock>
@@ -42,8 +54,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="338,69,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="saveInFile_button" Content="Сохранить" HorizontalAlignment="Left" Margin="256,224,0,0" VerticalAlignment="Top" Width="195" Height="36"/>
-        <Button x:Name="loadmore_button" Content="Показать дальше.." HorizontalAlignment="Left" Margin="256,291,0,0" VerticalAlignment="Top" Width="195" Height="36"/>
+        <ComboBox x:Name="comboBox" Margin="10,73,10,0" VerticalAlignment="Top" Height="23" Grid.Row="1" SelectedIndex="0"/>
+        <Button x:Name="saveInFile_button" Content="Сохранить" Margin="10,0,10,10" Grid.Column="2" Grid.Row="1" Height="30" VerticalAlignment="Bottom" Click="saveInFile_button_Click"/>
     </Grid>
 </Window>
