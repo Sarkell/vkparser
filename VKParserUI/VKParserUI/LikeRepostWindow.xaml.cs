@@ -99,12 +99,10 @@ namespace VKParserUI
 
         void showLikesOrReposts(bool isLikes, List<ModelLikeRepost.Response.Item> arrayForAdd)
         {
-            // TODO: вывод в списке Likes|Reposts в формате:
-            //  String.Format("vk.com/id{0} ({2} {3})", arrayForAdd[0].uid, arrayForAdd[0].FirstName, arrayForAdd[0].LastName);
-            // + реализовать vk.com/id1 как кликабельную ссылку
-            // или, если получится - "arrayForAdd.FirstName arrayForAdd.LastName", а по клику открывается ссылка vk.com/id + arrayForAdd.uid
-            // так же сделать сохранения списка в новый файл (имя файла - текущая дата_likes|reposts .txt) в формате:
-            //  String.Format("vk.com/id{0} ({2} {3})", arrayForAdd[0].uid, arrayForAdd[0].FirstName, arrayForAdd[0].LastName);
+            //TODO: сделать это после вывода списка
+            textBlock_loading.Visibility = Visibility.Collapsed;
+
+            // TODO: вывод в списки Likes и Reposts в формате Имя Фамилия и по клику открывется ссылка vk.com/id..
 
             // Аля Log
             System.IO.StreamWriter file = new System.IO.StreamWriter("C:\\Users\\Oleksii\\Desktop\\test.txt", true);
@@ -140,6 +138,8 @@ namespace VKParserUI
 
         private void button_Like_Click(object sender, RoutedEventArgs e)
         {
+            textBlock_loading.Visibility = Visibility.Visible;
+
             isLikes = true;
             selectedType = comboBox.SelectedIndex;
             response = VkApi.getLikesOrRepost(link, isLikes, 0, comboBox.SelectedIndex);
@@ -159,6 +159,8 @@ namespace VKParserUI
 
         private void button_Repost_Click(object sender, RoutedEventArgs e)
         {
+            textBlock_loading.Visibility = Visibility.Visible;
+
             isLikes = false;
             selectedType = comboBox.SelectedIndex;
             response = VkApi.getLikesOrRepost(link, isLikes, 0, comboBox.SelectedIndex);
@@ -177,6 +179,8 @@ namespace VKParserUI
 
         private void button_Load_More_Click(object sender, RoutedEventArgs e)
         {
+            textBlock_loading.Visibility = Visibility.Visible;
+
             getMoreOrNothing(link, isLikes);
         }
 
@@ -187,7 +191,7 @@ namespace VKParserUI
 
         private void saveInFile_button_Click(object sender, RoutedEventArgs e)
         {
-
+            //TODO: реализовать сохранение в файле
         }
 
     }

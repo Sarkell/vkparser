@@ -48,11 +48,6 @@ namespace VKParserUI
             this.Close();
         }
 
-        private void button_Authorization_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void button_Like_Repost_Click(object sender, RoutedEventArgs e)
         {
             LikeRepostWindow a = new LikeRepostWindow(ACCESS_TOKEN);
@@ -63,11 +58,14 @@ namespace VKParserUI
         private void Form_Load(object sender, RoutedEventArgs e)
         {
             sWebBrowser = web_browser;
+            textBlock_loading.Visibility = Visibility.Visible;
             sWebBrowser.Navigate("https://oauth.vk.com/authorize?client_id=6033617&scope=groups&redirect_uri=http://oauth.vk.com/blank.html&display=page&response_type=token");
         }
 
         private void web_browser_LoadCompleted(object sender, NavigationEventArgs e)
         {
+            textBlock_loading.Visibility = Visibility.Collapsed;
+
             string URL = sWebBrowser.Source.ToString();
             string patternAccessTokenMatch = @"^(?=.*\baccess_token=\b)(?=.*\buser_id=\b).*$";
 
@@ -133,12 +131,8 @@ namespace VKParserUI
 
 
             oldBrowser.ObjectForScripting = new ScriptInterface();
+            textBlock_loading.Visibility = Visibility.Visible;
             oldBrowser.Navigate("javascript:void((function(){var a,b,c,e,f;f=0;a=document.cookie.split('; ');for(e=0;e<a.length&&a[e];e++){f++;for(b='.'+location.host;b;b=b.replace(/^(?:%5C.|[^%5C.]+)/,'')){for(c=location.pathname;c;c=c.replace(/.$/,'')){document.cookie=(a[e]+'; domain='+b+'; path='+c+'; expires='+new Date((new Date()).getTime()-1e11).toGMTString());}}}window.external.callMe();})())");
-        }
-
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            web_browser.Navigate("https://oauth.vk.com/authorize?client_id=6033617&scope=groups&redirect_uri=http://oauth.vk.com/blank.html&display=page&response_type=token");
         }
 
         [System.Runtime.InteropServices.ComVisibleAttribute(true)]

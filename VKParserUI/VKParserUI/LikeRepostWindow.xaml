@@ -35,7 +35,7 @@
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn  Width="300">
+                        <GridViewColumn  Width="270">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock>
@@ -46,9 +46,25 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                             <GridViewColumn.Header >
-                                <TextBlock Text="Users" ></TextBlock>
+                                <TextBlock Text="Likes" ></TextBlock>
                             </GridViewColumn.Header>
                         </GridViewColumn>
+
+                        <GridViewColumn  Width="270">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <Hyperlink Click="Hyper_OnClick">
+                                            <TextBlock Text="{Binding signature}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.Header >
+                                <TextBlock Text="Reposts" ></TextBlock>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+
 
                     </GridView.Columns>
                 </GridView>
@@ -56,5 +72,7 @@
         </ListView>
         <ComboBox x:Name="comboBox" Margin="10,73,10,0" VerticalAlignment="Top" Height="23" Grid.Row="1" SelectedIndex="0"/>
         <Button x:Name="saveInFile_button" Content="Сохранить" Margin="10,0,10,10" Grid.Column="2" Grid.Row="1" Height="30" VerticalAlignment="Bottom" Click="saveInFile_button_Click"/>
+        <TextBlock x:Name="textBlock_loading" Visibility="Collapsed" Margin="10,0,10,10" Grid.Row="1" TextWrapping="Wrap" Text="Загрузка..." Grid.ColumnSpan="2" Foreground="Blue" Height="16" VerticalAlignment="Bottom"/>
+
     </Grid>
 </Window>
