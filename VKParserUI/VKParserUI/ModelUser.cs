@@ -16,8 +16,21 @@ namespace VKParserUI
         [JsonProperty(PropertyName = "error")]
         public Error error { get; set; }
 
+        // just for mocking data
+        public ModelUser()
+        {
+            users = new List<User>();
+        }
+
         public class User
         {
+            // just for mocking data
+            public User(int uid, string name, string surname)
+            {
+                uId = uId;
+                this.name = name;
+                this.surname = surname;
+            }
 
             [JsonProperty(PropertyName = "uid")]
             public int uId { get; set; }
@@ -27,6 +40,16 @@ namespace VKParserUI
 
             [JsonProperty(PropertyName = "last_name")]
             public string surname { get; set; }
+
+            public string signature
+            {
+                get
+                {
+                    return surname + " " + name;
+                }
+            }
+
+
 
         }
 
