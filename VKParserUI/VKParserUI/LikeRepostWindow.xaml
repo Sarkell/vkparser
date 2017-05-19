@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VKParserUI"
         mc:Ignorable="d"
-        Title="Vk Likes/Reposts &amp; Groups" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Width="Auto" Icon="vk.ico">
+        Title="Vk Likes/Reposts &amp; Groups" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Width="744.355" Icon="vk.ico">
     <Grid>
 
         <Grid.RowDefinitions>
@@ -22,14 +22,14 @@
         <Button x:Name="button_Authorization" Content="Авторизация" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Click="button_Authorization_Click" Height="20" Margin="4,0,0,0"/>
         <Button x:Name="button_Communities_Search" Content="Поиск Сообществ" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Top" Width="135" Click="button_Communities_Search_Click" Grid.Column="1" Height="20" IsEnabled="False"/>
         <Button x:Name="button_Like_Repost" Content="Like/Repost" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Top" Width="135" Grid.Column="2" Height="20"/>
-        <TextBox x:Name="textBox_URL" Height="23" Margin="67,30,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="textBox_URL_TextChanged" Grid.ColumnSpan="3" Grid.Row="1" />
+        <TextBox x:Name="textBox_URL" Height="59" Margin="67,30,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="textBox_URL_TextChanged" Grid.ColumnSpan="3" Grid.Row="1" />
         <Label x:Name="label_URL" Content="Ссылка:" Margin="10,27,0,0" VerticalAlignment="Top" Grid.Row="1" HorizontalAlignment="Left"/>
 
 
-        <Button x:Name="button_Like" Content="Лайк" Margin="10,73,10,0" VerticalAlignment="Top" Click="button_Like_Click" Height="23" Grid.Row="1" Grid.Column="1"/>
-        <Button x:Name="button_Repost" Content="Репост" Margin="10,73,10,0" VerticalAlignment="Top" Click="button_Repost_Click" Grid.Column="2" Height="23" Grid.Row="1"/>
+        <Button x:Name="button_Like" Content="Лайк" Margin="10,106,10,0" VerticalAlignment="Top" Click="button_Like_Click" Height="23" Grid.Row="1" Grid.Column="1"/>
+        <Button x:Name="button_Repost" Content="Репост" Margin="10,106,10,0" VerticalAlignment="Top" Click="button_Repost_Click" Grid.Column="2" Height="23" Grid.Row="1"/>
         <Button x:Name="button_Load_More" Content="Звгрузить ещё..." Margin="10,0,10,45" Visibility="Collapsed" Click="button_Load_More_Click" Grid.Column="2" Grid.Row="1" Height="30" VerticalAlignment="Bottom"/>
-        <TextBlock x:Name="label_error" Margin="10,117,10,0" VerticalAlignment="Top" Foreground="Red" Height="73" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="WrapWithOverflow"/>
+        <TextBlock x:Name="label_error" Margin="10,155,10,0" VerticalAlignment="Top" Foreground="Red" Height="73" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="WrapWithOverflow"/>
 
         <ListView Name="members_listview" Margin="10" Grid.Column="3" Grid.Row="1" >
             <ListView.View>
@@ -40,37 +40,20 @@
                                 <DataTemplate>
                                     <TextBlock>
                                         <Hyperlink Click="Hyper_OnClick">
-                                            <TextBlock Text="{Binding signature}" />
+                                            <TextBlock Text="{Binding Signature}" />
                                         </Hyperlink>
                                     </TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                             <GridViewColumn.Header >
-                                <TextBlock Text="Likes" ></TextBlock>
+                                <TextBlock Text="Likes\Reposts" ></TextBlock>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-
-                        <GridViewColumn  Width="270">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock>
-                                        <Hyperlink Click="Hyper_OnClick">
-                                            <TextBlock Text="{Binding signature}" />
-                                        </Hyperlink>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                            <GridViewColumn.Header >
-                                <TextBlock Text="Reposts" ></TextBlock>
-                            </GridViewColumn.Header>
-                        </GridViewColumn>
-
-
                     </GridView.Columns>
                 </GridView>
             </ListView.View>
         </ListView>
-        <ComboBox x:Name="comboBox" Margin="10,73,10,0" VerticalAlignment="Top" Height="23" Grid.Row="1" SelectedIndex="0"/>
+        <ComboBox x:Name="comboBox" Margin="10,106,10,0" VerticalAlignment="Top" Height="23" Grid.Row="1" SelectedIndex="0"/>
         <Button x:Name="saveInFile_button" Content="Сохранить" Margin="10,0,10,10" Grid.Column="2" Grid.Row="1" Height="30" VerticalAlignment="Bottom" Click="saveInFile_button_Click"/>
         <TextBlock x:Name="textBlock_loading" Visibility="Collapsed" Margin="10,0,10,10" Grid.Row="1" TextWrapping="Wrap" Text="Загрузка..." Grid.ColumnSpan="2" Foreground="Blue" Height="16" VerticalAlignment="Bottom"/>
 

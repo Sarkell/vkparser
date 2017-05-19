@@ -52,6 +52,14 @@ namespace VKParserUI
 
                 [JsonProperty(PropertyName = "last_name")]
                 public string LastName { get; set; }
+
+                public string Signature
+                {
+                    get
+                    {
+                        return LastName + " " + FirstName;
+                    }
+                }
             }
         }
 

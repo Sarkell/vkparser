@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace VKParserUI
 {
@@ -51,11 +52,7 @@ namespace VKParserUI
                 button_Communities_Search.IsEnabled = true;
             }
 
-            // just for mocking data
-            ModelUser user = new ModelUser();
-            user.users.Add(new ModelUser.User(271636103, "NAMA", "SUR"));
-            members_listview.ItemsSource = user.users;
-
+            textBlock_loading.Visibility = Visibility.Hidden;
             comboBox.ItemsSource = requestTypeParams;
         }
 
@@ -100,24 +97,27 @@ namespace VKParserUI
         void showLikesOrReposts(bool isLikes, List<ModelLikeRepost.Response.Item> arrayForAdd)
         {
             //TODO: сделать это после вывода списка
-            textBlock_loading.Visibility = Visibility.Collapsed;
+           
 
             // TODO: вывод в списки Likes и Reposts в формате Имя Фамилия и по клику открывется ссылка vk.com/id..
+            this.isLikes = isLikes;
+            members_listview.ItemsSource = arrayForAdd;
+            textBlock_loading.Visibility = Visibility.Collapsed;
 
             // Аля Log
-            System.IO.StreamWriter file = new System.IO.StreamWriter("C:\\Users\\Oleksii\\Desktop\\test.txt", true);
-            foreach (ModelLikeRepost.Response.Item item in arrayForAdd)
-            {
-                file.WriteLine(String.Format("vk.com/id{0} ({1} {2})", item.uid, item.FirstName, item.LastName));
+            //System.IO.StreamWriter file = new System.IO.StreamWriter("C:\\Users\\Oleksii\\Desktop\\test.txt", true);
+            //foreach (ModelLikeRepost.Response.Item item in arrayForAdd)
+            //{
+            //    file.WriteLine(String.Format("vk.com/id{0} ({1} {2})", item.uid, item.FirstName, item.LastName));
 
-            }
-            file.Close();
+            //}
+            //file.Close();
 
         }
 
         private void Hyper_OnClick(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("http://vk.com/id" + ((ModelUser.User)((Hyperlink)e.OriginalSource).DataContext).uId));
+            Process.Start(new ProcessStartInfo("http://vk.com/id" + ((ModelLikeRepost.Response.Item)((Hyperlink)e.OriginalSource).DataContext).uid));
             e.Handled = true;
         }
 
@@ -191,7 +191,36 @@ namespace VKParserUI
 
         private void saveInFile_button_Click(object sender, RoutedEventArgs e)
         {
+            string type = isLikes == true ? "likes" : "reposts";
             //TODO: реализовать сохранение в файле
+            //Поставить две кнопки для сохранений отдельно Лайков отдельно Репостов 
+            //с названием по формату текущая "дата_likes|reposts .txt"
+
+
+            //Проверь пжл у себя на пк. 
+            string header = $"{textBox_URL.Text}/n{type}";
+            string fileName = $"{DateTime.Now}_{type}.txt".Replace('/','.').Replace(' ', '_');
+            string writePath = @"D:\" + fileName;
+
+            try
+            {
+                File.Create(writePath);
+                using (StreamWriter sw = new StreamWriter(writePath))
+                {
+                    sw.WriteLine(header);
+                    foreach (ModelLikeRepost.Response.Item item in members_listview.Items)
+                    {
+                        sw.WriteLine($"http://vk.com/id{item.uid}");
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
     }
