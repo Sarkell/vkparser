@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VKParserUI"
         mc:Ignorable="d"
-        Title="Vk Likes/Reposts &amp; Groups" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Width="Auto" Icon="vk.ico">
-    <Grid>
+        Title="Vk Likes/Reposts &amp; Groups" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Width="Auto" Icon="vk.ico" >
+    <Grid Loaded="Grid_Loaded">
         <Grid.RowDefinitions>
             <RowDefinition Height="24"/>
             <RowDefinition Height="161*"/>
@@ -20,56 +20,49 @@
 
         <Button x:Name="button_Authorization" Content="Авторизация" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Click="button_Authorization_Click" Height="20" Margin="4,0,0,0"/>
         <Button x:Name="button_Communities_Search" Content="Поиск Сообществ" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Top" Width="135" Grid.Column="1" Height="20"/>
-        <Button x:Name="button_Like_Repost" Content="Like/Repost" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Top" Width="135" Grid.Column="2" Height="20"/>
+        <Button x:Name="button_Like_Repost" Content="Like/Repost" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Top" Width="135" Grid.Column="2" Height="20" Click="button_Like_Repost_Click"/>
 
         <Label Content="Ключевые слова:" Margin="10,10,25,0" VerticalAlignment="Top" Grid.Row="1"/>
         <TextBox x:Name="textBox_searchWords" Margin="123,14,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3" TextChanged="textBox_searchWords_TextChanged"/>
         <Label Content="Стоп слова:" Margin="10,41,25,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <TextBox x:Name="textBox_stopWords" Margin="123,44,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3"/>
-        
+        <TextBox x:Name="textBox_stopWords" Margin="123,44,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3" TextChanged="textBox_stopWords_TextChanged"/>
+
         <Label Content="Страна:" Margin="122,77,110,0" VerticalAlignment="Top" Grid.Row="1" RenderTransformOrigin="0.481,0.654" Grid.ColumnSpan="2"/>
-        <ComboBox x:Name="comboBox_country" Margin="38,81,128,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1"/>
+        <ComboBox x:Name="comboBox_country" Margin="38,81,128,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" SelectionChanged="comboBox_country_SelectionChanged"/>
         <Label Content="Город:" Margin="122,108,115,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2"/>
-        <ComboBox x:Name="comboBox_city" Margin="38,108,128,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1"/>
+        <ComboBox x:Name="comboBox_city" Margin="38,108,128,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" SelectionChanged="comboBox_city_SelectionChanged"/>
 
-        <Label Content="Тип:" Margin="74,154,32,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <RadioButton x:Name="radioButton_group" Content="Группы" Margin="116,160,110,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2" IsChecked="True" GroupName="type"/>
-        <RadioButton x:Name="radioButton_event" Content="Встречи" Margin="53,160,27,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" GroupName="type"/>
-        <RadioButton x:Name="radioButton_page" Content="Паблики" Margin="0,160,76,0" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1" GroupName="type"/>
+        <CheckBox x:Name="checkBox_parametr" Visibility="Visible" Content="Только с включенными товарами" Margin="123,195,76,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="3" Checked="checkBox_parametr_Checked" Unchecked="checkBox_parametr_Unchecked"/>
+        <CheckBox x:Name="checkBox_parametr_event" Visibility="Visible" Content="Только предстоящие события" Margin="123,215,76,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="3" Checked="checkBox_parametr_event_Checked" Unchecked="checkBox_parametr_event_Unchecked"/>
 
-        <CheckBox x:Name="checkBox_parametr" Content="Только предстоящие встречи" Margin="123,195,76,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="3" Height="49"/>
+        <Label Content="Тип:" Margin="38,154,68,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <RadioButton x:Name="radioButton_all" Content="Любой" Margin="91,160,135,0" VerticalAlignment="Top" Grid.Row="1" IsChecked="True" GroupName="type" Grid.ColumnSpan="2" Checked="radioButton_all_Checked"/>
+        <RadioButton x:Name="radioButton_group" Content="Группа" Margin="27,160,56,0" VerticalAlignment="Top" Grid.Row="1" GroupName="type" Checked="radioButton_group_Checked" Grid.Column="1"/>
+        <RadioButton x:Name="radioButton_event" Content="Встреча" Margin="101,160,122,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" GroupName="type" Checked="radioButton_event_Checked" RenderTransformOrigin="0.492,0.467" Grid.ColumnSpan="2"/>
+        <RadioButton x:Name="radioButton_page" Content="Паблик" Margin="39,160,37,0" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1" GroupName="type" Checked="radioButton_page_Checked" RenderTransformOrigin="0.5,0.5"/>
 
         <Label Content="Сортировка:" Margin="102,241,103,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2"/>
-        <ComboBox x:Name="comboBox_sort" Margin="53,245,97,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <ComboBox x:Name="comboBox_sort" Margin="53,245,97,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" SelectedIndex="0" SelectionChanged="comboBox_sort_SelectionChanged"/>
 
-        <Button x:Name="button_search" Content="Поиск" Margin="10,299,10,0" Grid.Row="1" VerticalAlignment="Top" Grid.Column="1" Height="35"/>
+        <Button x:Name="button_search" Content="Поиск" Margin="10,299,10,0" Grid.Row="1" VerticalAlignment="Top" Grid.Column="1" Height="35" Click="button_search_Click"/>
         <TextBlock x:Name="textBlock_error" Text="Ошибка!" Margin="74,349,76,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="3" Height="33" Foreground="Red" TextAlignment="Center"/>
 
         <TextBlock x:Name="textBlock_loading" Margin="10,0,10,10" Grid.Row="1" TextWrapping="Wrap" Text="Загрузка..." Grid.ColumnSpan="2" Foreground="Blue" Height="16" VerticalAlignment="Bottom"/>
 
-        <Button x:Name="button_loadMore" Content="Загрузить ещё..." Grid.Column="2" Margin="10,0,10,50" Grid.Row="1" Height="35" VerticalAlignment="Bottom"/>
-        <Button x:Name="button_saveToFile" Content="Сохранить" Grid.Column="2" Margin="10,0,10,10" Grid.Row="1" Height="35" VerticalAlignment="Bottom"/>
+        <Button x:Name="button_loadMore" Content="Загрузить ещё..." Grid.Column="2" Margin="10,0,10,50" Grid.Row="1" Height="35" VerticalAlignment="Bottom" Click="button_loadMore_Click"/>
+        <Button x:Name="button_saveToFile" Content="Сохранить" Grid.Column="2" Margin="10,0,10,10" Grid.Row="1" Height="35" VerticalAlignment="Bottom" Click="button_saveToFile_Click"/>
 
         <ListView Margin="10,0,10,10" Grid.Column="3" Grid.Row="1">
             <ListView.View>
                 <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Employee Information">
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=FirstName}" Width="180">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=FirstName}" Width="440">
                         <GridViewColumnHeader>Группы
-                        </GridViewColumnHeader>
-                    </GridViewColumn>
-
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=LastName}" Width="180">
-                        <GridViewColumnHeader>Паблики
-                        </GridViewColumnHeader>
-                    </GridViewColumn>
-
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=EmployeeNumber}" Width="180">
-                        <GridViewColumnHeader>Встречи
                         </GridViewColumnHeader>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button x:Name="button_CountryCityEmpty" Content="Сбросить" Grid.Column="2" Margin="49,93,26,0" Grid.Row="1" VerticalAlignment="Top" Click="button_CountryCityEmpty_Click"/>
 
     </Grid>
 </Window>

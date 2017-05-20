@@ -68,6 +68,8 @@
     <Compile Include="LikeRepostWindow.xaml.cs">
       <DependentUpon>LikeRepostWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ModelCountriesAndCities.cs" />
+    <Compile Include="ModelGroup.cs" />
     <Compile Include="ModelLikeRepost.cs" />
     <Compile Include="ModelUser.cs" />
     <Compile Include="VkApi.cs" />
