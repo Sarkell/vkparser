@@ -27,7 +27,7 @@ namespace VKParserUI
 
             [JsonProperty(PropertyName = "type")]
             public string type { get; set; }
-
+            
         }
 
         public class Error

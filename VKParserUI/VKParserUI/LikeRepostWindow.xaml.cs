@@ -29,7 +29,20 @@ namespace VKParserUI
         private bool isLikes = false;
         private int selectedType;
 
-        private readonly List<string> requestTypeParams = new List<string> { "Пост", "Комментарий к посту", "Фото", "Видео", "Заметка", "Товар", "Комментарий к фото", "Комментарий к видео", "Комментарий в обсуждении", "Комментарий к товару" };
+        private readonly List<string> requestTypeParams =
+            new List<string>
+            {
+                "Пост",
+                "Комментарий к посту",
+                "Фото",
+                "Видео",
+                "Заметка",
+                "Товар",
+                "Комментарий к фото",
+                "Комментарий к видео",
+                "Комментарий в обсуждении",
+                "Комментарий к товару"
+            };
 
         public LikeRepostWindow()
         {
@@ -65,7 +78,8 @@ namespace VKParserUI
             {
                 if (count < max_count)
                 {
-                    ModelLikeRepost newResult = VkApi.getLikesOrRepost(link, isLikes, response.response.arrayItem.Count, selectedType);
+                    ModelLikeRepost newResult =
+                        VkApi.getLikesOrRepost(link, isLikes, response.response.arrayItem.Count, selectedType);
 
                     if (newResult.response != null)
                     {
@@ -74,7 +88,8 @@ namespace VKParserUI
                     }
                     else
                     {
-                        string errorText = String.Format("Error №{0}: {1}.", newResult.error.errorCode, newResult.error.errorMsg);
+                        string errorText = String.Format("Error №{0}: {1}.", newResult.error.errorCode,
+                            newResult.error.errorMsg);
                         label_error.Text = errorText;
                         return;
                     }
@@ -96,10 +111,6 @@ namespace VKParserUI
 
         void showLikesOrReposts(bool isLikes, List<ModelLikeRepost.Response.Item> arrayForAdd)
         {
-            //TODO: сделать это после вывода списка
-           
-
-            // TODO: вывод в списки Likes и Reposts в формате Имя Фамилия и по клику открывется ссылка vk.com/id..
             this.isLikes = isLikes;
             members_listview.ItemsSource = arrayForAdd;
             textBlock_loading.Visibility = Visibility.Collapsed;
@@ -112,12 +123,13 @@ namespace VKParserUI
 
             //}
             //file.Close();
-
         }
 
         private void Hyper_OnClick(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("http://vk.com/id" + ((ModelLikeRepost.Response.Item)((Hyperlink)e.OriginalSource).DataContext).uid));
+            Process.Start(new ProcessStartInfo("http://vk.com/id" +
+                                               ((ModelLikeRepost.Response.Item)((Hyperlink)e.OriginalSource)
+                                                   .DataContext).uid));
             e.Handled = true;
         }
 
@@ -131,7 +143,7 @@ namespace VKParserUI
 
         private void button_Communities_Search_Click(object sender, RoutedEventArgs e)
         {
-            CommunitysSearchWindow a = new CommunitysSearchWindow(ACCESS_TOKEN);
+            CommunitysSearchWindow a = new CommunitysSearchWindow();
             a.Show();
             this.Close();
         }
@@ -154,7 +166,6 @@ namespace VKParserUI
                 showLikesOrReposts(isLikes, response.response.arrayItem);
                 getMoreOrNothing(link, isLikes);
             }
-
         }
 
         private void button_Repost_Click(object sender, RoutedEventArgs e)
@@ -191,7 +202,7 @@ namespace VKParserUI
 
         private void saveInFile_button_Click(object sender, RoutedEventArgs e)
         {
-            string type = isLikes == true ? "likes" : "reposts";
+            string type = isLikes ? "likes" : "reposts";
             //TODO: реализовать сохранение в файле
             //Поставить две кнопки для сохранений отдельно Лайков отдельно Репостов 
             //с названием по формату текущая "дата_likes|reposts .txt"
@@ -199,7 +210,7 @@ namespace VKParserUI
 
             //Проверь пжл у себя на пк. 
             string header = $"{textBox_URL.Text}/n{type}";
-            string fileName = $"{DateTime.Now}_{type}.txt".Replace('/','.').Replace(' ', '_');
+            string fileName = $"{DateTime.Now}_{type}.txt".Replace('/', '.').Replace(' ', '_');
             string writePath = @"D:\" + fileName;
 
             try
@@ -212,16 +223,12 @@ namespace VKParserUI
                     {
                         sw.WriteLine($"http://vk.com/id{item.uid}");
                     }
-
                 }
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
-
     }
 }
