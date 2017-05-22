@@ -235,5 +235,89 @@ namespace VKParserUI
             return resultInModel;
         }
 
+        public ModelCountriesAndCities getCountries()
+        {
+            HttpRequest GetInformation = new HttpRequest();
+            GetInformation.AddUrlParam("need_all", "1");
+            GetInformation.AddUrlParam("count", "300");
+            GetInformation.AddUrlParam("access_token", ACCESS_TOKEN == null ? SERVICE_KEY_FOR_ACCESS : ACCESS_TOKEN);
+
+            string Result = GetInformation.Get(VK_URL + "database.getCountries").ToString();
+            ModelCountriesAndCities resultInModel = JsonConvert.DeserializeObject<ModelCountriesAndCities>(Result);
+
+            return resultInModel;
+        }
+
+        public ModelCountriesAndCities getCitiesByCountry(ModelCountriesAndCities.CountryOrCity country)
+        {
+            HttpRequest GetInformation = new HttpRequest();
+            GetInformation.AddUrlParam("country_id", country.id.ToString());
+            GetInformation.AddUrlParam("need_all", "0");
+            GetInformation.AddUrlParam("count", "1000");
+            GetInformation.AddUrlParam("access_token", ACCESS_TOKEN == null ? SERVICE_KEY_FOR_ACCESS : ACCESS_TOKEN);
+
+            string Result = GetInformation.Get(VK_URL + "database.getCities").ToString();
+            ModelCountriesAndCities resultInModel = JsonConvert.DeserializeObject<ModelCountriesAndCities>(Result);
+
+            return resultInModel;
+        }
+
+        public ModelGroup searchGroups(string whatSearch, int searchType, ModelCountriesAndCities.CountryOrCity country,
+            ModelCountriesAndCities.CountryOrCity city, bool isFutureEvent, bool isWithMarket, int sortType, int offset)
+        {
+            string sSearchType;
+            switch (searchType)
+            {
+                case 0:
+                    sSearchType = "group,event,page";
+                    break;
+                case 1:
+                    sSearchType = "group";
+                    break;
+                case 2:
+                    sSearchType = "event";
+                    break;
+                case 3:
+                    sSearchType = "page";
+                    break;
+                default:
+                    sSearchType = "group,event,page";
+                    break;
+
+            }
+
+            HttpRequest GetInformation = new HttpRequest();
+            GetInformation.AddUrlParam("q", whatSearch);
+            GetInformation.AddUrlParam("type", sSearchType);
+            GetInformation.AddUrlParam("country_id", country != null ? country.id.ToString() : "");
+            GetInformation.AddUrlParam("city_id", city != null ? city.id.ToString() : "");
+            GetInformation.AddUrlParam("future", isFutureEvent ? 1 : 0);
+            GetInformation.AddUrlParam("market", isWithMarket ? 1 : 0);
+            GetInformation.AddUrlParam("sort", sortType);
+            GetInformation.AddUrlParam("offset", offset);
+            GetInformation.AddUrlParam("access_token", ACCESS_TOKEN);
+
+            string Result = GetInformation.Get(VK_URL + "groups.search").ToString();
+            string pattern = @":\[\d+";
+            int count = 0;
+            foreach (Match m in Regex.Matches(Result, pattern))
+            {
+                string sCount = m.Value.Remove(0, 2);
+                count = Convert.ToInt32(sCount);
+            }
+            int i = Result.IndexOf(",{");
+            if (i != -1)
+            {
+                Result = Result.Remove(13, i - 12);
+                ModelGroup resultInModel = JsonConvert.DeserializeObject<ModelGroup>(Result);
+                resultInModel.count = count;
+                return resultInModel;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 }

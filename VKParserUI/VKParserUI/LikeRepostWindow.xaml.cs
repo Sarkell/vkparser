@@ -131,7 +131,7 @@ namespace VKParserUI
 
         private void button_Communities_Search_Click(object sender, RoutedEventArgs e)
         {
-            CommunitysSearchWindow a = new CommunitysSearchWindow();
+            CommunitysSearchWindow a = new CommunitysSearchWindow(ACCESS_TOKEN);
             a.Show();
             this.Close();
         }
