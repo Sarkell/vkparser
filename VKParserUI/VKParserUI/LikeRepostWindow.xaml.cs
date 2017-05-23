@@ -143,7 +143,7 @@ namespace VKParserUI
 
         private void button_Communities_Search_Click(object sender, RoutedEventArgs e)
         {
-            CommunitysSearchWindow a = new CommunitysSearchWindow();
+            CommunitysSearchWindow a = new CommunitysSearchWindow(ACCESS_TOKEN);
             a.Show();
             this.Close();
         }
@@ -203,26 +203,21 @@ namespace VKParserUI
         private void saveInFile_button_Click(object sender, RoutedEventArgs e)
         {
             string type = isLikes ? "likes" : "reposts";
-            //TODO: реализовать сохранение в файле
-            //Поставить две кнопки для сохранений отдельно Лайков отдельно Репостов 
-            //с названием по формату текущая "дата_likes|reposts .txt"
 
-
-            //Проверь пжл у себя на пк. 
-            string header = $"{textBox_URL.Text}/n{type}";
-            string fileName = $"{DateTime.Now}_{type}.txt".Replace('/', '.').Replace(' ', '_');
-            string writePath = @"D:\" + fileName;
+            string fileName = $"{DateTime.Now}_{type}.txt".Replace('/', '.').Replace(':', '.').Replace(' ', '_');
+            string dir = AppDomain.CurrentDomain.BaseDirectory;
 
             try
             {
-                File.Create(writePath);
-                using (StreamWriter sw = new StreamWriter(writePath))
+                using (StreamWriter sw = new StreamWriter(File.Create(System.IO.Path.Combine(dir, fileName))))
                 {
-                    sw.WriteLine(header);
+                    sw.WriteLine($"{type} -- {textBox_URL.Text}");
+                    sw.WriteLine();
                     foreach (ModelLikeRepost.Response.Item item in members_listview.Items)
-                    {
-                        sw.WriteLine($"http://vk.com/id{item.uid}");
+                    {                        
+                        sw.WriteLine($"{item.FirstName} {item.LastName} (http://vk.com/id{item.uid})");
                     }
+                    sw.Close();
                 }
             }
             catch (Exception ex)

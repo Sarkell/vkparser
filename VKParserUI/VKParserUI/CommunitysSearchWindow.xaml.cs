@@ -237,7 +237,7 @@ namespace VKParserUI
             string type = isAll ? "all" : modelGroupWithStopWords.groups[0].type;
             string header = $"{searchFor}/n{type}";
             string fileName = $"{DateTime.Now}_{type}.txt".Replace('/', '.').Replace(' ', '_');
-            string writePath = @"D:\" + fileName;
+            string writePath = @"C:\" + fileName;
 
             try
             {
