@@ -27,7 +27,8 @@ namespace VKParserUI
 
             [JsonProperty(PropertyName = "type")]
             public string type { get; set; }
-            
+
+            public string summary => $"{name} ({screenName})";
         }
 
         public class Error

@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace VKParserUI
 {
@@ -236,28 +240,27 @@ namespace VKParserUI
             bool isAll = (bool) radioButton_all.IsChecked;
             string type = isAll ? "all" : modelGroupWithStopWords.groups[0].type;
             string header = $"{searchFor}/n{type}";
-            string fileName = $"{DateTime.Now}_{type}.txt".Replace('/', '.').Replace(' ', '_');
-            string writePath = @"C:\" + fileName;
+            string fileName = $"{DateTime.Now}_{type}.txt".Replace('/', '.').Replace(':', '.').Replace(' ', '_');
+            string dir = AppDomain.CurrentDomain.BaseDirectory;
 
             try
             {
-                File.Create(writePath);
-                using (StreamWriter sw = new StreamWriter(writePath))
+                using (StreamWriter sw = new StreamWriter(File.Create(Path.Combine(dir, fileName))))
                 {
-                    sw.WriteLine(header);
+                    sw.WriteLine(header + "\n");
 
                     if (isAll)
                     {
                         foreach (ModelGroup.Group item in modelGroupWithStopWords.groups)
                         {
-                            sw.WriteLine($"{item.type} {item.name} ({item.screenName})");
+                            sw.WriteLine($"{item.type} {item.name} (http://vk.com/id{item.screenName})");
                         }
                     }
                     else
                     {
                         foreach (ModelGroup.Group item in modelGroupWithStopWords.groups)
                         {
-                            sw.WriteLine($"{item.name} ({item.screenName})");
+                            sw.WriteLine($"{item.name} (http://vk.com/id{item.screenName})");
                         }
                     }
                 }
@@ -313,75 +316,23 @@ namespace VKParserUI
             }
 
 
-            Type currentType = Type.All;
-            GridView myGridView = new GridView();
-            myGridView.AllowsColumnReorder = true;
-            string HeaderName = "Название сообщества";
-
-            switch (type)
-            {
-                case 0:
-                    currentType = Type.All;
-
-                    myGridView.Columns.Add(new GridViewColumn
-                    {
-                        DisplayMemberBinding = new Binding("type"),
-                        Header = "Тип",
-                        Width = 75
-                    });
-
-                    break;
-                case 1:
-                    currentType = Type.Group;
-                    HeaderName = "Группы";
-                    break;
-                case 2:
-                    currentType = Type.Event;
-                    HeaderName = "События";
-                    break;
-                case 3:
-                    currentType = Type.Public;
-                    HeaderName = "Паблики";
-                    break;
-            }
-
-            myGridView.Columns.Add(new GridViewColumn
-            {
-                DisplayMemberBinding = new Binding("name"),
-                Header = HeaderName,
-                Width = 300
-            });
-
-            myGridView.Columns.Add(new GridViewColumn
-            {
-                DisplayMemberBinding = new Binding("screenName"),
-                Header = "Id",
-                Width = 300
-            });
-
-            listview_table.View = myGridView;
-
             foreach (ModelGroup.Group item in addModelGroup.groups)
             {
-                if (item.type == currentType.ToString().ToLower() || currentType == Type.All)
-                {
-                    groupsToShow.Add(item);
-                }
+                groupsToShow.Add(item);
             }
 
             listview_table.ItemsSource = null;
             listview_table.ItemsSource = groupsToShow;
 
-            // Аля Log
-            //            System.IO.StreamWriter file = new System.IO.StreamWriter("C:\\Users\\Oleksii\\Desktop\\test.txt", true);
-            //            foreach (ModelGroup.Group item in addModelGroup.groups)
-            //            {
-            //                file.WriteLine(String.Format("{0} - {1} (vk.com/{2})", item.type, item.name, item.screenName));
-            //            }
-            //            file.Close();
-
-            // в самом конце
             textBlock_loading.Visibility = Visibility.Collapsed;
+        }
+
+        private void Hyper_OnClick(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("http://vk.com/" +
+                                               ((ModelGroup.Group) ((Hyperlink) e.OriginalSource)
+                                                   .DataContext).screenName));
+            e.Handled = true;
         }
 
         private void button_CountryCityEmpty_Click(object sender, RoutedEventArgs e)
@@ -391,12 +342,12 @@ namespace VKParserUI
             comboBox_country.SelectedIndex = -1;
         }
 
-        private enum Type
+        private void textBox_searchWords_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            All,
-            Group,
-            Event,
-            Public
+            if (e.Key == Key.Enter)
+            {
+                button_search_Click(null,e);
+            }
         }
     }
 }
